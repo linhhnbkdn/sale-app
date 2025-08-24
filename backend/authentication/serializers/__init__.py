@@ -1,9 +1,9 @@
-from .user_serializer import UserSerializer, UserRegistrationSerializer
-from .auth_serializer import UserLoginSerializer, TokenSerializer
+from .auth_serializer import TokenSerializer, UserLoginSerializer
+from .user_serializer import UserRegistrationSerializer, UserSerializer
 
 __all__ = [
-    'UserSerializer',
-    'UserRegistrationSerializer', 
-    'UserLoginSerializer',
-    'TokenSerializer'
+    "UserSerializer",
+    "UserRegistrationSerializer",
+    "UserLoginSerializer",
+    "TokenSerializer",
 ]

@@ -1,5 +1,5 @@
-from rest_framework import serializers
 from django.contrib.auth import authenticate
+from rest_framework import serializers
 
 
 class UserLoginSerializer(serializers.Serializer):
@@ -18,7 +18,9 @@ class UserLoginSerializer(serializers.Serializer):
                 raise serializers.ValidationError("User account is disabled")
             attrs["user"] = user
         else:
-            raise serializers.ValidationError("Must provide username and password")
+            raise serializers.ValidationError(
+                "Must provide username and password"
+            )
 
         return attrs
 

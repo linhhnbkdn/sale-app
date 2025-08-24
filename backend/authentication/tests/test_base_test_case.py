@@ -1,7 +1,3 @@
-from django.test import TestCase
-from django.contrib.auth.models import User
-from rest_framework.test import APIClient
-from rest_framework import status
 from common.base_test_case import BaseTestCase
 
 
@@ -17,60 +13,60 @@ class BaseTestCaseTestCase(BaseTestCase):
 
     def test_setup_test_data_called(self):
         """Test that setup_test_data is called during setup"""
-        self.assertTrue(hasattr(self, 'setup_was_called'))
+        self.assertTrue(hasattr(self, "setup_was_called"))
         self.assertTrue(self.setup_was_called)
 
     def test_create_test_user_defaults(self):
         """Test create_test_user with default parameters"""
         user = self.create_test_user()
-        self.assertEqual(user.username, 'testuser')
-        self.assertEqual(user.email, 'test@example.com')
-        self.assertTrue(user.check_password('testpass123'))
+        self.assertEqual(user.username, "testuser")
+        self.assertEqual(user.email, "test@example.com")
+        self.assertTrue(user.check_password("testpass123"))
 
     def test_create_test_user_custom_params(self):
         """Test create_test_user with custom parameters"""
         user = self.create_test_user(
-            username='customuser',
-            email='custom@example.com',
-            password='custompass123'
+            username="customuser",
+            email="custom@example.com",
+            password="custompass123",
         )
-        self.assertEqual(user.username, 'customuser')
-        self.assertEqual(user.email, 'custom@example.com')
-        self.assertTrue(user.check_password('custompass123'))
+        self.assertEqual(user.username, "customuser")
+        self.assertEqual(user.email, "custom@example.com")
+        self.assertTrue(user.check_password("custompass123"))
 
     def test_get_jwt_tokens(self):
         """Test JWT token generation"""
         user = self.create_test_user()
         tokens = self.get_jwt_tokens(user)
-        
-        self.assertIn('access', tokens)
-        self.assertIn('refresh', tokens)
-        self.assertIsInstance(tokens['access'], str)
-        self.assertIsInstance(tokens['refresh'], str)
+
+        self.assertIn("access", tokens)
+        self.assertIn("refresh", tokens)
+        self.assertIsInstance(tokens["access"], str)
+        self.assertIsInstance(tokens["refresh"], str)
 
     def test_authenticate_user(self):
         """Test user authentication"""
         user = self.create_test_user()
         tokens = self.authenticate_user(user)
-        
-        self.assertIn('access', tokens)
-        self.assertIn('refresh', tokens)
+
+        self.assertIn("access", tokens)
+        self.assertIn("refresh", tokens)
         # Check that credentials are set on the client
-        self.assertIn('HTTP_AUTHORIZATION', self.client._credentials)
+        self.assertIn("HTTP_AUTHORIZATION", self.client._credentials)
 
     def test_logout_user(self):
         """Test logout user functionality"""
         user = self.create_test_user()
         self.authenticate_user(user)
-        
+
         # Ensure we're authenticated
-        self.assertIn('HTTP_AUTHORIZATION', self.client._credentials)
-        
+        self.assertIn("HTTP_AUTHORIZATION", self.client._credentials)
+
         # Logout
         self.logout_user()
-        
+
         # Ensure credentials are cleared
-        self.assertNotIn('HTTP_AUTHORIZATION', self.client._credentials)
+        self.assertNotIn("HTTP_AUTHORIZATION", self.client._credentials)
 
     def test_assert_response_success(self):
         """Test assertResponseSuccess helper"""

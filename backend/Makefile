@@ -17,10 +17,10 @@ init:
 	uv sync
 
 lint:
-	ruff check .
+	/Users/hoang.ngoc.linh/Desktop/self-learning/web-sale/backend/.venv/bin/ruff check .
 
 format:
-	ruff format .
+	/Users/hoang.ngoc.linh/Desktop/self-learning/web-sale/backend/.venv/bin/ruff format .
 
 check: lint format
 
