@@ -1,4 +1,3 @@
-
 from django.urls import reverse
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -207,7 +206,8 @@ class TokenManagementE2ETestCase(BaseTestCase):
             self.assertEqual(profile_response.status_code, status.HTTP_200_OK)
 
     def test_complete_token_lifecycle(self):
-        """Test complete token lifecycle: obtain -> use -> refresh -> blacklist"""
+        """Test complete token lifecycle: obtain -> use -> refresh ->
+        blacklist"""
         # Step 1: Obtain token pair
         credentials = {"username": "tokenuser", "password": "tokenpass123"}
         token_response = self.client.post(

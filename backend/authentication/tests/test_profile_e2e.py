@@ -94,7 +94,7 @@ class ProfileE2ETestCase(BaseTestCase):
     def test_update_profile_with_duplicate_email(self):
         """Test profile update with email that belongs to another user"""
         # Create another user with different email
-        other_user = self.create_test_user(
+        self.create_test_user(
             username="otheruser",
             email="other@example.com",
             password="otherpass123",
@@ -108,7 +108,8 @@ class ProfileE2ETestCase(BaseTestCase):
 
         response = self.client.put(self.profile_url, update_data, format="json")
 
-        # Django User model doesn't enforce unique emails by default, so this should succeed
+        # Django User model doesn't enforce unique emails by default,
+        # so this should succeed
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["user"]["email"], "other@example.com")
 
@@ -145,9 +146,10 @@ class ProfileE2ETestCase(BaseTestCase):
         )  # This should change
 
     def test_complete_profile_management_flow(self):
-        """Test complete flow: authenticate -> get profile -> update -> verify changes"""
+        """Test complete flow: authenticate -> get profile -> update ->
+        verify changes"""
         # Step 1: Authenticate
-        tokens = self.authenticate_user(self.test_user)
+        self.authenticate_user(self.test_user)
 
         # Step 2: Get initial profile
         initial_response = self.client.get(self.profile_url)

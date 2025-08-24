@@ -123,7 +123,7 @@ class AuthenticationE2ETestCase(BaseTestCase):
         self.logout_user()  # Remove current auth
         self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {tokens['access']}")
         profile_url = reverse("authentication:profile")
-        profile_response = self.client.get(profile_url)
+        self.client.get(profile_url)
         # Note: Access token might still work until it expires,
         # but refresh token should be blacklisted
 
@@ -147,7 +147,8 @@ class AuthenticationE2ETestCase(BaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_complete_authentication_flow(self):
-        """Test complete flow: register -> login -> access protected resource -> logout"""
+        """Test complete flow: register -> login -> access protected
+        resource -> logout"""
         # Step 1: Register new user
         register_response = self.client.post(
             self.register_url, self.valid_user_data, format="json"

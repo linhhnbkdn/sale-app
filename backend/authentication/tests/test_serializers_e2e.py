@@ -24,7 +24,8 @@ class SerializersE2ETestCase(BaseTestCase):
         self.inactive_user.save()
 
     def test_login_serializer_with_inactive_user(self):
-        """Test login serializer with inactive user that validates but authenticate fails"""
+        """Test login serializer with inactive user that validates but
+        authenticate fails"""
         # Create an active user first, then deactivate to test the inactive path
         from unittest.mock import patch
 
@@ -102,9 +103,11 @@ class SerializersE2ETestCase(BaseTestCase):
         self.assertIn("password", serializer.errors)
 
     def test_login_serializer_empty_values_validation_path(self):
-        """Test the specific validation path for empty username/password after field validation passes"""
+        """Test the specific validation path for empty username/password
+        after field validation passes"""
 
-        # We need to patch CharField validation to allow empty values through to our custom validation
+        # We need to patch CharField validation to allow empty values
+        # through to our custom validation
         serializer_data = {"username": "test", "password": "test"}
 
         # Create a serializer and manually call validate with empty values

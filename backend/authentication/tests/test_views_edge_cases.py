@@ -31,7 +31,8 @@ class ViewsEdgeCasesTestCase(BaseTestCase):
 
         response = self.client.post(self.token_url, credentials, format="json")
 
-        # Should fail and not include user data (this covers the else branch in CustomTokenObtainPairView)
+        # Should fail and not include user data (this covers the else branch
+        # in CustomTokenObtainPairView)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
         self.assertNotIn("user", response.data)
 

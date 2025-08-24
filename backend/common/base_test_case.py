@@ -39,10 +39,10 @@ class BaseTestCase(TestCase):
         """Remove authentication credentials"""
         self.client.credentials()
 
-    def assertResponseSuccess(self, response):
+    def assert_response_success(self, response):
         """Assert response is successful (2xx)"""
         self.assertTrue(200 <= response.status_code < 300)
 
-    def assertResponseError(self, response):
+    def assert_response_error(self, response):
         """Assert response is an error (4xx or 5xx)"""
         self.assertTrue(response.status_code >= 400)

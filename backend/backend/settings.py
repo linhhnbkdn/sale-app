@@ -13,7 +13,20 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 
-from .constants import *
+from .constants import (
+    ALLOWED_HOSTS,
+    CORS_ALLOW_CREDENTIALS,
+    CORS_ALLOWED_ORIGINS,
+    DEBUG,
+    JWT_ACCESS_TOKEN_LIFETIME,
+    JWT_ALGORITHM,
+    JWT_BLACKLIST_AFTER_ROTATION,
+    JWT_REFRESH_TOKEN_LIFETIME,
+    JWT_ROTATE_REFRESH_TOKENS,
+    LANGUAGE_CODE,
+    SECRET_KEY,
+    TIME_ZONE,
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -95,16 +108,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation."
+        "UserAttributeSimilarityValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": "django.contrib.auth.password_validation."
+        "MinimumLengthValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation."
+        "CommonPasswordValidator",
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation."
+        "NumericPasswordValidator",
     },
 ]
 
@@ -169,7 +186,8 @@ CORS_ALLOW_CREDENTIALS = CORS_ALLOW_CREDENTIALS
 # DRF Spectacular settings
 SPECTACULAR_SETTINGS = {
     "TITLE": "Web Sale Backend API",
-    "DESCRIPTION": "Django backend API for web-sale project with JWT authentication",
+    "DESCRIPTION": "Django backend API for web-sale project with JWT "
+    "authentication",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
     "COMPONENT_SPLIT_REQUEST": True,
