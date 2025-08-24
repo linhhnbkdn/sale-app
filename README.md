@@ -1,6 +1,6 @@
 # Web Sale Project
 
-A full-stack e-commerce web application built with Django backend.
+A full-stack e-commerce web application with Django backend and modern frontend.
 
 ## Project Structure
 
@@ -13,6 +13,11 @@ web-sale/
 │   ├── manage.py         # Django management script
 │   ├── requirements.txt  # Python dependencies
 │   └── Makefile         # Development commands
+├── frontend/             # Frontend application (planned)
+│   ├── src/             # Source code
+│   ├── public/          # Static assets
+│   ├── package.json     # Dependencies
+│   └── ...              # Build configuration
 └── README.md            # This file
 ```
 
@@ -20,8 +25,13 @@ web-sale/
 
 ### Prerequisites
 
+**Backend:**
 - Python 3.11+
 - uv (Python package manager)
+
+**Frontend:**
+- Node.js 18+
+- npm or yarn
 
 ### Installation
 
@@ -31,6 +41,8 @@ web-sale/
    cd web-sale
    ```
 
+#### Backend Setup
+
 2. Initialize the backend:
    ```bash
    cd backend
@@ -39,23 +51,49 @@ web-sale/
 
 3. Run database migrations:
    ```bash
-   make migrate
+   python manage.py migrate
    ```
 
-4. Start the development server:
+4. Start the backend development server:
    ```bash
    make run
    ```
 
 The backend will be available at `http://localhost:8000`
 
-## Backend Features
+#### Frontend Setup
+
+5. Install frontend dependencies:
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+6. Start the frontend development server:
+   ```bash
+   npm run dev
+   ```
+
+The frontend will be available at `http://localhost:3000`
+
+## Features
+
+### Backend Features
 
 - **Authentication System**: JWT-based user authentication
 - **User Management**: User registration, login, and profile management
 - **API Documentation**: Automatic OpenAPI schema generation
 - **Testing**: Comprehensive test suite with coverage reporting
 - **Code Quality**: Automated linting and formatting with Ruff
+
+### Frontend Features (Planned)
+
+- **Modern UI/UX**: Responsive design with modern JavaScript framework
+- **Product Catalog**: Browse and search products
+- **Shopping Cart**: Add/remove items, manage quantities
+- **User Dashboard**: Profile management and order history
+- **Checkout Process**: Secure payment integration
+- **Admin Interface**: Product and order management
 
 ## Development Commands
 
