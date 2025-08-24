@@ -41,6 +41,9 @@ CORS_ALLOWED_ORIGINS = os.getenv(
 CORS_ALLOW_CREDENTIALS = (
     os.getenv("CORS_ALLOW_CREDENTIALS", "True").lower() == "true"
 )
+CORS_ALLOW_ALL_ORIGINS = (
+    os.getenv("CORS_ALLOW_ALL_ORIGINS", "True").lower() == "true"
+)
 
 # Time Zone
 TIME_ZONE = os.getenv("TIME_ZONE", "UTC")

@@ -1,4 +1,4 @@
-.PHONY: init lint format check schema run test coverage coverage-report coverage-html help
+.PHONY: init lint format check schema run test coverage coverage-report coverage-html migrate superuser help
 
 help:
 	@echo "Available commands:"
@@ -12,6 +12,8 @@ help:
 	@echo "  coverage       - Run tests with coverage"
 	@echo "  coverage-report- Show coverage report"
 	@echo "  coverage-html  - Generate HTML coverage report"
+	@echo "  migrate        - Run database migrations"
+	@echo "  superuser      - Create superuser with admin@gmail.com/admin"
 
 init:
 	uv sync
@@ -42,3 +44,11 @@ coverage-report:
 
 coverage-html:
 	/Users/hoang.ngoc.linh/Desktop/self-learning/web-sale/backend/.venv/bin/coverage html
+
+migrate:
+	/Users/hoang.ngoc.linh/Desktop/self-learning/web-sale/backend/.venv/bin/python manage.py makemigrations
+	/Users/hoang.ngoc.linh/Desktop/self-learning/web-sale/backend/.venv/bin/python manage.py migrate
+
+superuser:
+	@echo "Creating superuser with admin@gmail.com/admin..."
+	@echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(email='admin@gmail.com').exists() or User.objects.create_superuser('admin@gmail.com', 'admin@gmail.com', 'admin')" | /Users/hoang.ngoc.linh/Desktop/self-learning/web-sale/backend/.venv/bin/python manage.py shell

@@ -26,7 +26,7 @@ export default function Dashboard() {
                 <h1 className="text-xl font-semibold text-gray-900">Web Sale Dashboard</h1>
               </div>
               <div className="flex items-center space-x-4">
-                <span className="text-sm text-gray-700">Welcome, {user?.name || user?.email}</span>
+                <span className="text-sm text-gray-700">Welcome, {user?.first_name || user?.username}</span>
                 <button
                   onClick={handleLogout}
                   className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium"
@@ -52,7 +52,9 @@ export default function Dashboard() {
                   <div className="text-sm text-green-700">
                     <strong>User Info:</strong><br />
                     Email: {user?.email}<br />
-                    {user?.name && <>Name: {user.name}<br /></>}
+                    Username: {user?.username}<br />
+                    {user?.first_name && <>First Name: {user.first_name}<br /></>}
+                    {user?.last_name && <>Last Name: {user.last_name}<br /></>}
                     ID: {user?.id}
                   </div>
                 </div>

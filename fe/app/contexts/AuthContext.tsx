@@ -1,10 +1,9 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
+import type { ReactNode } from "react";
+import { apiClient } from "../api/client";
+import { ApiError } from "../api/client";
+import type { User } from "../api/types";
 
-interface User {
-  id: string;
-  email: string;
-  name: string;
-}
 
 interface AuthContextType {
   user: User | null;
@@ -45,23 +44,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const fetchUserProfile = async (authToken: string) => {
     try {
-      const response = await fetch("/api/profile", {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
-      } else {
-        localStorage.removeItem("authToken");
-        setToken(null);
-      }
+      apiClient.setToken(authToken);
+      const userData = await apiClient.getProfile();
+      setUser(userData);
     } catch (error) {
       console.error("Failed to fetch user profile:", error);
       localStorage.removeItem("authToken");
       setToken(null);
+      apiClient.setToken(null);
     } finally {
       setIsLoading(false);
     }
@@ -69,35 +59,42 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const { token: authToken, user: userData } = data;
-        
-        localStorage.setItem("authToken", authToken);
-        setToken(authToken);
-        setUser(userData);
-        return true;
-      } else {
-        return false;
-      }
+      console.log("Attempting login with:", { email, backend: "http://localhost:8000" });
+      const tokenData = await apiClient.login({ username: email, password });
+      console.log("Login successful, received tokens");
+      const authToken = tokenData.access;
+      
+      localStorage.setItem("authToken", authToken);
+      localStorage.setItem("refreshToken", tokenData.refresh);
+      setToken(authToken);
+      apiClient.setToken(authToken);
+      
+      console.log("Fetching user profile...");
+      const userData = await apiClient.getProfile();
+      console.log("Profile fetched successfully:", userData);
+      setUser(userData);
+      return true;
     } catch (error) {
       console.error("Login failed:", error);
+      if (error instanceof ApiError) {
+        console.error("API Error details:", { 
+          status: error.status, 
+          data: error.data,
+          message: error.message 
+        });
+      } else if (error instanceof Error) {
+        console.error("Network/Other Error:", error.message);
+      }
       return false;
     }
   };
 
   const logout = () => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("refreshToken");
     setToken(null);
     setUser(null);
+    apiClient.setToken(null);
   };
 
   const value = {
