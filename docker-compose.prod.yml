@@ -1,0 +1,72 @@
+# Production environment
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      - DEBUG=False
+      - DJANGO_SETTINGS_MODULE=backend.settings
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/websale
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1}
+      - SECRET_KEY=${SECRET_KEY}
+    depends_on:
+      - db
+      - redis
+    command: >
+      sh -c "/app/.venv/bin/python manage.py migrate &&
+             /app/.venv/bin/python manage.py collectstatic --noinput &&
+             /app/.venv/bin/gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 3"
+    restart: unless-stopped
+    volumes:
+      - static_files:/app/static
+      - media_files:/app/media
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: prod
+    environment:
+      - NODE_ENV=production
+      - VITE_API_URL=${FRONTEND_API_URL:-http://localhost:8000}
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - static_files:/var/www/static
+      - media_files:/var/www/media
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=websale
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  static_files:
+  media_files:

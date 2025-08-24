@@ -97,7 +97,9 @@ The frontend will be available at `http://localhost:3000`
 
 ## Development Commands
 
-All commands should be run from the `backend/` directory:
+### Backend Commands
+
+Run from the `backend/` directory:
 
 ```bash
 make init           # Install dependencies
@@ -108,6 +110,19 @@ make lint           # Check code quality
 make format         # Format code
 make check          # Lint and format together
 make schema         # Generate API schema
+```
+
+### Frontend Commands
+
+Run from the `frontend/` directory:
+
+```bash
+npm install         # Install dependencies
+npm run dev         # Start development server
+npm run build       # Build for production
+npm run test        # Run tests
+npm run lint        # Check code quality
+npm run format      # Format code
 ```
 
 ## API Endpoints
@@ -125,6 +140,79 @@ make schema         # Generate API schema
 - **API**: Django REST Framework
 - **Testing**: Django Test Framework + Coverage
 - **Code Quality**: Ruff
+
+### Frontend (Planned)
+- **Framework**: React.js / Vue.js / Next.js
+- **State Management**: Redux / Zustand / Pinia
+- **Styling**: Tailwind CSS / Material-UI / Styled Components
+- **Build Tool**: Vite / Webpack
+- **Testing**: Jest / Vitest + React Testing Library
+- **HTTP Client**: Axios / Fetch API
+
+## Docker Setup
+
+### Development with Docker
+
+1. **Start all services:**
+   ```bash
+   docker-compose up -d
+   ```
+
+2. **View logs:**
+   ```bash
+   docker-compose logs -f
+   ```
+
+3. **Stop services:**
+   ```bash
+   docker-compose down
+   ```
+
+**Services:**
+- Frontend: `http://localhost:3000`
+- Backend API: `http://localhost:8000`
+- Database: PostgreSQL on port 5432
+
+### Production Deployment
+
+1. **Copy environment variables:**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your production values
+   ```
+
+2. **Deploy with production compose:**
+   ```bash
+   docker-compose -f docker-compose.prod.yml up -d
+   ```
+
+**Production features:**
+- Nginx reverse proxy
+- PostgreSQL database
+- Redis caching
+- Static/media file serving
+- SSL-ready configuration
+
+### Docker Commands
+
+```bash
+# Build images
+docker-compose build
+
+# Run specific service
+docker-compose up backend
+
+# Execute commands in container
+docker-compose exec backend python manage.py migrate
+docker-compose exec frontend npm install
+
+# View service status
+docker-compose ps
+
+# Clean up
+docker-compose down -v  # Remove volumes
+docker system prune     # Clean unused images
+```
 
 ## Contributing
 
